@@ -7,6 +7,8 @@
 //
 
 #import "DetailViewController.h"
+#import "SDWebImage/UIImageView+WebCache.h"
+
 
 @interface DetailViewController ()
 
@@ -28,7 +30,12 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:[self.detailItem valueForKey:@"g:image_link"]]
+                          placeholderImage:[UIImage imageNamed:@"placeholder-pushee.jpg"]];
+        self.titleLabel.text = [self.detailItem valueForKey:@"g:title"];
+        self.priceLabel.text = [self.detailItem valueForKey:@"g:price"];
+        self.availabilityLabel.text = [self.detailItem valueForKey:@"g:availability"];
+        self.detailDescriptionLabel.text = [self.detailItem valueForKey:@"g:description"];
     }
 }
 

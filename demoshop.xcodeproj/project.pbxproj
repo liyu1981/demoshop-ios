@@ -14,6 +14,8 @@
 		04ACD2D21C64A26500813A29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04ACD2D01C64A26500813A29 /* Main.storyboard */; };
 		04ACD2D41C64A26500813A29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04ACD2D31C64A26500813A29 /* Assets.xcassets */; };
 		04ACD2D71C64A26500813A29 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04ACD2D51C64A26500813A29 /* LaunchScreen.storyboard */; };
+		04ACD2E61C64F53700813A29 /* placeholder-pushee.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04ACD2E51C64F53700813A29 /* placeholder-pushee.jpg */; };
+		1C8A8DCF9BDC4B41829B606E /* libPods-demoshop.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FD7CD8C9D55563EE7049B66 /* libPods-demoshop.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,10 @@
 		04ACD2D31C64A26500813A29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04ACD2D61C64A26500813A29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04ACD2D81C64A26500813A29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04ACD2E51C64F53700813A29 /* placeholder-pushee.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "placeholder-pushee.jpg"; sourceTree = "<group>"; };
+		5E31108AEBBCEFFBBDB2E347 /* Pods-demoshop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-demoshop.release.xcconfig"; path = "Pods/Target Support Files/Pods-demoshop/Pods-demoshop.release.xcconfig"; sourceTree = "<group>"; };
+		7FD7CD8C9D55563EE7049B66 /* libPods-demoshop.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-demoshop.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A53FF6446A06A3768BCFF3FF /* Pods-demoshop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-demoshop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-demoshop/Pods-demoshop.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C8A8DCF9BDC4B41829B606E /* libPods-demoshop.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +54,8 @@
 			children = (
 				04ACD2C31C64A26500813A29 /* demoshop */,
 				04ACD2C21C64A26500813A29 /* Products */,
+				67D915C86FBBBDD5E8ADF8AF /* Pods */,
+				B959B332D81B1E3F197F4731 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,6 +70,7 @@
 		04ACD2C31C64A26500813A29 /* demoshop */ = {
 			isa = PBXGroup;
 			children = (
+				04ACD2E51C64F53700813A29 /* placeholder-pushee.jpg */,
 				04ACD2C71C64A26500813A29 /* AppDelegate.h */,
 				04ACD2C81C64A26500813A29 /* AppDelegate.m */,
 				04ACD2CA1C64A26500813A29 /* MasterViewController.h */,
@@ -84,6 +94,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		67D915C86FBBBDD5E8ADF8AF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A53FF6446A06A3768BCFF3FF /* Pods-demoshop.debug.xcconfig */,
+				5E31108AEBBCEFFBBDB2E347 /* Pods-demoshop.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B959B332D81B1E3F197F4731 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7FD7CD8C9D55563EE7049B66 /* libPods-demoshop.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -91,9 +118,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04ACD2DB1C64A26500813A29 /* Build configuration list for PBXNativeTarget "demoshop" */;
 			buildPhases = (
+				BEDB1FA04C41A6561E610F8F /* Check Pods Manifest.lock */,
 				04ACD2BD1C64A26500813A29 /* Sources */,
 				04ACD2BE1C64A26500813A29 /* Frameworks */,
 				04ACD2BF1C64A26500813A29 /* Resources */,
+				DA4BC0539ED6B2FD0A3ECEF0 /* Embed Pods Frameworks */,
+				4212F6CFEE7ADB990C9D4E75 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -143,11 +173,60 @@
 			files = (
 				04ACD2D71C64A26500813A29 /* LaunchScreen.storyboard in Resources */,
 				04ACD2D41C64A26500813A29 /* Assets.xcassets in Resources */,
+				04ACD2E61C64F53700813A29 /* placeholder-pushee.jpg in Resources */,
 				04ACD2D21C64A26500813A29 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4212F6CFEE7ADB990C9D4E75 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-demoshop/Pods-demoshop-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BEDB1FA04C41A6561E610F8F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DA4BC0539ED6B2FD0A3ECEF0 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-demoshop/Pods-demoshop-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		04ACD2BD1C64A26500813A29 /* Sources */ = {
@@ -265,6 +344,7 @@
 		};
 		04ACD2DC1C64A26500813A29 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A53FF6446A06A3768BCFF3FF /* Pods-demoshop.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = demoshop/Info.plist;
@@ -276,6 +356,7 @@
 		};
 		04ACD2DD1C64A26500813A29 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E31108AEBBCEFFBBDB2E347 /* Pods-demoshop.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = demoshop/Info.plist;
@@ -304,6 +385,7 @@
 				04ACD2DD1C64A26500813A29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

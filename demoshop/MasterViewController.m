@@ -8,6 +8,9 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "XMLDictionary.h"
+#import "SDWebImage/UIImageView+WebCache.h"
+
 
 @interface MasterViewController ()
 
@@ -18,12 +21,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    // self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+    //self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    
+    // Now get the XML file
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://104.236.187.180/magento/fbdpafeed.xml"]];
+    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -43,6 +51,44 @@
     [self.objects insertObject:[NSDate date] atIndex:0];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+#pragma mark NSURLConnection Delegate Methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    // A response has been received, this is where we initialize the instance var you created
+    // so that we can append data to it in the didReceiveData method
+    // Furthermore, this method is called each time there is a redirect so reinitializing it
+    // also serves to clear it
+    _responseData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    // Append the new data to the instance variable you declared
+    [_responseData appendData:data];
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
+                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
+    // Return nil to indicate not necessary to store a cached response for this connection
+    return nil;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // The request is complete and data has been received
+    // You can parse the stuff in your instance variable now
+    _responseXmlDoc = [NSDictionary dictionaryWithXMLData:[NSData dataWithData:_responseData]];
+    self.objects = [[NSMutableArray alloc] init];
+    for (NSDictionary* entry in [_responseXmlDoc valueForKey:@"entry"]) {
+        [self.objects insertObject:entry atIndex:0];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    // The request has failed for some reason!
+    // Check the error var
 }
 
 #pragma mark - Segues
@@ -71,8 +117,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSDate *object = self.objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    NSDictionary *object = self.objects[indexPath.row];
+    
+    cell.textLabel.text = [object valueForKey:@"g:title"];
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price: %@, availability: %@",
+                                                           [object valueForKey:@"g:price"],
+                                                           [object valueForKey:@"g:availability"]];
+    
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[object valueForKey:@"g:image_link"]]
+                      placeholderImage:[UIImage imageNamed:@"placeholder-pushee.jpg"]];
+    
     return cell;
 }
 

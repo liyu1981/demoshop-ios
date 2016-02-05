@@ -10,7 +10,11 @@
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController
+@interface MasterViewController : UITableViewController<NSURLConnectionDelegate>
+{
+    NSMutableData *_responseData;
+    NSDictionary *_responseXmlDoc;
+}
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
