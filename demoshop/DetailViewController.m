@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "CartViewController.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
 
@@ -48,6 +49,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Segues
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"addToCart"]) {
+        CartViewController *controller = (CartViewController *)[[segue destinationViewController] topViewController];
+        [controller addItem:self.detailItem];
+        //controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        //controller.navigationItem.leftItemsSupplementBackButton = YES;
+    }
 }
 
 @end

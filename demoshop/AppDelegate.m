@@ -15,6 +15,8 @@
 
 @implementation AppDelegate
 
+@synthesize cart;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -22,6 +24,8 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
+    // Init global cart
+    self.cart = [[NSMutableArray alloc] init];
     return YES;
 }
 

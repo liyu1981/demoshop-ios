@@ -41,3 +41,4 @@ Temporary Items
 Podfile.lock
 Pods/
 *.xcworkspace/
+*.pbxproj

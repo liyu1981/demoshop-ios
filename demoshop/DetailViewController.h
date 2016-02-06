@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class CartViewController;
+
 @interface DetailViewController : UIViewController
 
 @property (strong, nonatomic) id detailItem;
