@@ -10,14 +10,14 @@
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController<NSURLConnectionDelegate>
+@interface ProductListViewController : UITableViewController<NSURLConnectionDelegate>
 {
     NSMutableData *_responseData;
     NSDictionary *_responseXmlDoc;
+    NSString *_categorySelected;
 }
 
-@property (strong, nonatomic) DetailViewController *detailViewController;
-
+- (void)setCategorySelected:(NSString*)category;
 
 @end
 

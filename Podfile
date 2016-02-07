@@ -6,8 +6,9 @@
 target 'demoshop' do
   pod 'XMLDictionary', '~>1.4'
   pod 'FBSDKCoreKit', '~>4.9'
-  pod 'SDWebImage', '~>3.7'
   # pod 'FBSDKLoginKit', '~>4.9'
   # pod 'FBSDKShareKit', '~>4.9'
+  pod 'SDWebImage', '~>3.7'
+  pod 'RegExCategories', '~> 1.0'
 end
 

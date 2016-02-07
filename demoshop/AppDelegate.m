@@ -8,8 +8,11 @@
 
 #import "AppDelegate.h"
 #import "DetailViewController.h"
+#import "RegExCategories.h"
 
-@interface AppDelegate () <UISplitViewControllerDelegate>
+@interface AppDelegate () <UISplitViewControllerDelegate> {
+    NSMutableSet *_categories;
+}
 
 @end
 
@@ -24,8 +27,11 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
-    // Init global cart
+    
+    // init app variables
+    self.products = nil;
     self.cart = [[NSMutableArray alloc] init];
+    
     return YES;
 }
 
@@ -49,6 +55,53 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (NSString*)getTotalPrice {
+    int total = 0;
+    for (NSDictionary *entry in self.cart) {
+        NSString *priceString = [entry valueForKey:@"g:price"];
+        NSString *priceNumberString = [priceString firstMatch:RX(@"\\d+")];
+        total += [priceNumberString intValue];
+    }
+    return [NSString stringWithFormat:@"%d USD", total];
+}
+
+- (NSArray*)getCategories {
+    if (_categories == nil) {
+        _categories = [[NSMutableSet alloc] init];
+        for (NSDictionary *entry in self.products) {
+            NSString *title = [entry valueForKey:@"g:title"];
+            NSArray *words = [title componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            [_categories addObject:[words lastObject]];
+        }
+    }
+    NSMutableArray *a = [[[_categories allObjects] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
+    [a insertObject:@"ALL" atIndex:0];
+    return [NSArray arrayWithArray:a];
+}
+
+- (NSArray*) filterProductsWith:(NSString*)categorySelected {
+    if ([categorySelected isEqual: @"ALL"]) {
+        return [NSArray arrayWithArray:_products];
+    } else {
+        NSMutableArray *a = [[NSMutableArray alloc] init];
+        for (NSDictionary *entry in _products) {
+            NSString *title = [entry valueForKey:@"g:title"];
+            if ([title hasSuffix:categorySelected]) {
+                [a addObject:entry];
+            }
+        }
+        return [NSArray arrayWithArray:a];
+    }
+}
+
+- (NSUInteger) countFilterProductsWith:(NSString*)categorySelected {
+    if ([categorySelected isEqual:@"ALL"]) {
+        return _products.count;
+    } else {
+        return [self filterProductsWith:categorySelected].count;
+    }
 }
 
 #pragma mark - Split view

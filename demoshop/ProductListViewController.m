@@ -6,32 +6,42 @@
 //  Copyright © 2016 Yu Li. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "ProductListViewController.h"
 #import "DetailViewController.h"
+#import "AppDelegate.h"
 #import "XMLDictionary.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
 
-@interface MasterViewController ()
+@interface ProductListViewController ()
 
-@property NSMutableArray *objects;
 @end
 
-@implementation MasterViewController
+@implementation ProductListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Do any additional setup after loading the view, typically from a nib.
-    // self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    //self.navigationItem.rightBarButtonItem = addButton;
-    self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    // self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
-    // Now get the XML file
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://104.236.187.180/magento/fbdpafeed.xml"]];
-    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if (_categorySelected == nil) {
+        _categorySelected = @"ALL";
+    }
+
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:[NSString stringWithFormat:@"Category (%@)", _categorySelected]
+                                                                     style:UIBarButtonItemStylePlain
+                                                                    target:self
+                                                                    action:@selector(selectCategory:)];
+    self.navigationItem.rightBarButtonItem = filterButton;
+    
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    if (app.products == nil) {
+        // Now get the XML file
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://104.236.187.180/magento/fbdpafeed.xml"]];
+        [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -44,13 +54,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)insertNewObject:(id)sender {
-    if (!self.objects) {
-        self.objects = [[NSMutableArray alloc] init];
-    }
-    [self.objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+- (void)selectCategory:(id)sender {
+    [self.navigationController performSegueWithIdentifier:@"showCategorySelector" sender:self];
+}
+
+- (void)setCategorySelected:(NSString *)category {
+    _categorySelected = category;
 }
 
 #pragma mark NSURLConnection Delegate Methods
@@ -78,10 +87,11 @@
     // The request is complete and data has been received
     // You can parse the stuff in your instance variable now
     _responseXmlDoc = [NSDictionary dictionaryWithXMLData:[NSData dataWithData:_responseData]];
-    self.objects = [[NSMutableArray alloc] init];
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    app.products = [[NSMutableArray alloc] init];
     for (NSDictionary* entry in [_responseXmlDoc valueForKey:@"entry"]) {
-        [self.objects insertObject:entry atIndex:0];
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [app.products addObject:entry];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([app.products count] - 1) inSection:0];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
@@ -96,7 +106,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.objects[indexPath.row];
+        AppDelegate *app = [[UIApplication sharedApplication] delegate];
+        NSDate *object = [app filterProductsWith:_categorySelected][indexPath.row];
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         [controller setDetailItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
@@ -111,13 +122,15 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.objects.count;
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    return [app countFilterProductsWith:_categorySelected];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
 
-    NSDictionary *object = self.objects[indexPath.row];
+    NSDictionary *object = [app filterProductsWith:_categorySelected][indexPath.row];
     
     cell.textLabel.text = [object valueForKey:@"g:title"];
     
@@ -137,12 +150,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    /*if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self.objects removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
+    }*/
 }
 
 @end
