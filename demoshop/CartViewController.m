@@ -8,7 +8,7 @@
 
 #import "CartViewController.h"
 #import "AppDelegate.h"
-#import "MasterViewController.h"
+#import "ProductListViewController.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
 
@@ -42,15 +42,26 @@
 
 - (void)pay:(id)sender {
     AppDelegate *app = [[UIApplication sharedApplication] delegate];
-    [app.cart removeAllObjects];
-    [self performSegueWithIdentifier:@"productList" sender:sender];
+    NSUInteger totalPrice = [app getTotalPrice];
+    UIAlertController *payAlert = [UIAlertController alertControllerWithTitle:@"Really really?"
+                                                                      message:[NSString stringWithFormat:@"Pay %lu USD ?", (unsigned long)totalPrice]
+                                                               preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *payAction = [UIAlertAction actionWithTitle:@"Pay!" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [app.cart removeAllObjects];
+        [self performSegueWithIdentifier:@"productList" sender:sender];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"No!" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+    [payAlert addAction:payAction];
+    [payAlert addAction:cancelAction];
+    [self presentViewController:payAlert animated:true completion:nil];
+    
 }
 
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"productList"]) {
-        MasterViewController *controller = (MasterViewController *)[[segue destinationViewController] topViewController];
+        // MasterViewController *controller = (MasterViewController *)[[segue destinationViewController] topViewController];
     }
 }
 

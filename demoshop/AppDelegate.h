@@ -11,8 +11,14 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, retain) NSMutableArray *products;
 @property (nonatomic, retain) NSMutableArray *cart;
 
++ (NSUInteger) getPriceFrom:(NSString*)priceString;
+- (NSUInteger) getTotalPrice;
+- (NSArray*) getCategories;
+- (NSArray*) filterProductsWith:(NSString*)categorySelected;
+- (NSUInteger) countFilterProductsWith:(NSString*)categorySelected;
 
 @end
 
