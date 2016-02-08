@@ -8,7 +8,9 @@
 
 #import "DetailViewController.h"
 #import "CartViewController.h"
+#import "AppDelegate.h"
 #import "SDWebImage/UIImageView+WebCache.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 
 @interface DetailViewController ()
@@ -37,6 +39,12 @@
         self.priceLabel.text = [self.detailItem valueForKey:@"g:price"];
         self.availabilityLabel.text = [self.detailItem valueForKey:@"g:availability"];
         self.detailDescriptionLabel.text = [self.detailItem valueForKey:@"g:description"];
+        
+        [FBSDKAppEvents logEvent:FBSDKAppEventNameViewedContent
+                      valueToSum:[AppDelegate getPriceFrom:[self.detailItem valueForKey:@"g:price"]]
+                      parameters:@{ FBSDKAppEventParameterNameCurrency: @"USD",
+                                    FBSDKAppEventParameterNameContentType: @"product",
+                                    FBSDKAppEventParameterNameContentID: [self.detailItem valueForKey:@"g:id"] }];
     }
 }
 
@@ -57,6 +65,12 @@
     if ([[segue identifier] isEqualToString:@"addToCart"]) {
         CartViewController *controller = (CartViewController *)[[segue destinationViewController] topViewController];
         [controller addItem:self.detailItem];
+        
+        [FBSDKAppEvents logEvent:FBSDKAppEventNameAddedToCart
+                      valueToSum:[AppDelegate getPriceFrom:[self.detailItem valueForKey:@"g:price"]]
+                      parameters:@{ FBSDKAppEventParameterNameContentType: @"product",
+                                    FBSDKAppEventParameterNameContentID: [self.detailItem valueForKey:@"g:id"] }];
+        
         //controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         //controller.navigationItem.leftItemsSupplementBackButton = YES;
     }

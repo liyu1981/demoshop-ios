@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "XMLDictionary.h"
 #import "SDWebImage/UIImageView+WebCache.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 
 @interface ProductListViewController ()
@@ -18,6 +19,25 @@
 @end
 
 @implementation ProductListViewController
+
+- (void)reportFBViewedContent {
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    NSArray *products = [app filterProductsWith:_categorySelected];
+    if (products.count > 0) {
+        // get first 3 items
+        NSArray *first3 = [products subarrayWithRange:NSMakeRange(0, MIN(products.count, 3))];
+        NSMutableArray *contentIDs = [[NSMutableArray alloc] init];
+        NSUInteger total = 0;
+        for (NSDictionary *entry in first3) {
+            [contentIDs addObject:[entry valueForKey:@"g:id"]];
+            total += [AppDelegate getPriceFrom:[entry valueForKey:@"g:price"]];
+        }
+        [FBSDKAppEvents logEvent:FBSDKAppEventNameViewedContent
+                      valueToSum:total
+                      parameters:@{ FBSDKAppEventParameterNameContentType: @"product",
+                                    FBSDKAppEventParameterNameContentID: [contentIDs componentsJoinedByString:@","] }];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,6 +66,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
+    
+    [self reportFBViewedContent];
+    
     [super viewWillAppear:animated];
 }
 
@@ -94,6 +117,7 @@
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([app.products count] - 1) inSection:0];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+    [self reportFBViewedContent];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -134,7 +158,7 @@
     
     cell.textLabel.text = [object valueForKey:@"g:title"];
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price: %@, availability: %@",
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price: %@, Availability: %@",
                                                            [object valueForKey:@"g:price"],
                                                            [object valueForKey:@"g:availability"]];
     
@@ -146,7 +170,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

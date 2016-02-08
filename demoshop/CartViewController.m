@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "ProductListViewController.h"
 #import "SDWebImage/UIImageView+WebCache.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 
 @interface CartViewController ()
@@ -47,6 +48,7 @@
                                                                       message:[NSString stringWithFormat:@"Pay %lu USD ?", (unsigned long)totalPrice]
                                                                preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *payAction = [UIAlertAction actionWithTitle:@"Pay!" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [FBSDKAppEvents logPurchase:totalPrice currency:@"USD"];
         [app.cart removeAllObjects];
         [self performSegueWithIdentifier:@"productList" sender:sender];
     }];

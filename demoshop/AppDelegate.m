@@ -28,7 +28,7 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
-    
+
     // init app variables
     self.products = nil;
     self.cart = [[NSMutableArray alloc] init];
@@ -36,7 +36,7 @@
     // FBSDK
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
-    
+
     return YES;
 }
 
@@ -103,6 +103,10 @@
 }
 
 - (NSArray*) filterProductsWith:(NSString*)categorySelected {
+    if (_products == nil) {
+        return @[];
+    }
+
     if ([categorySelected isEqual: @"ALL"]) {
         return [NSArray arrayWithArray:_products];
     } else {
