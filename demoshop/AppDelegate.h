@@ -14,7 +14,8 @@
 @property (nonatomic, retain) NSMutableArray *products;
 @property (nonatomic, retain) NSMutableArray *cart;
 
-- (NSString*) getTotalPrice;
++ (NSUInteger) getPriceFrom:(NSString*)priceString;
+- (NSUInteger) getTotalPrice;
 - (NSArray*) getCategories;
 - (NSArray*) filterProductsWith:(NSString*)categorySelected;
 - (NSUInteger) countFilterProductsWith:(NSString*)categorySelected;

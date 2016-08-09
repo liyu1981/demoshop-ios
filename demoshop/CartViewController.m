@@ -42,9 +42,9 @@
 
 - (void)pay:(id)sender {
     AppDelegate *app = [[UIApplication sharedApplication] delegate];
-    NSString *totalPrice = [app getTotalPrice];
+    NSUInteger totalPrice = [app getTotalPrice];
     UIAlertController *payAlert = [UIAlertController alertControllerWithTitle:@"Really really?"
-                                                                      message:[NSString stringWithFormat:@"Pay %@?", totalPrice]
+                                                                      message:[NSString stringWithFormat:@"Pay %lu USD ?", (unsigned long)totalPrice]
                                                                preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *payAction = [UIAlertAction actionWithTitle:@"Pay!" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [app.cart removeAllObjects];

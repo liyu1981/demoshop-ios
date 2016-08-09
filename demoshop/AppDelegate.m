@@ -57,14 +57,19 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (NSString*)getTotalPrice {
++ (NSUInteger)getPriceFrom:(NSString *)priceString {
+    NSString *priceNumberString = [priceString firstMatch:RX(@"\\d+")];
+    return [priceNumberString intValue];
+}
+
+- (NSUInteger)getTotalPrice {
     int total = 0;
     for (NSDictionary *entry in self.cart) {
         NSString *priceString = [entry valueForKey:@"g:price"];
         NSString *priceNumberString = [priceString firstMatch:RX(@"\\d+")];
-        total += [priceNumberString intValue];
+        total += [AppDelegate getPriceFrom:priceNumberString];
     }
-    return [NSString stringWithFormat:@"%d USD", total];
+    return total;
 }
 
 - (NSArray*)getCategories {
