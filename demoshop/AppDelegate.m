@@ -9,7 +9,9 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "RegExCategories.h"
+#import <Bolts/Bolts.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <AdSupport/ASIdentifierManager.h>
 
 @interface AppDelegate () <UISplitViewControllerDelegate> {
     NSMutableSet *_categories;
@@ -23,6 +25,29 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    if (launchOptions[UIApplicationLaunchOptionsURLKey] == nil) {
+        [FBSDKAppLinkUtility fetchDeferredAppLink:^(NSURL *url, NSError *error) {
+            NSUUID* adId = [[ASIdentifierManager sharedManager] advertisingIdentifier];
+            NSString* s = [NSString stringWithFormat:@"DEEPLINK: %@, Device ADID: %@", [url absoluteString], [adId UUIDString]];
+            if (error) {
+                NSLog(@"Received error while fetching deferred app link %@", error);
+            }
+            if (url) {
+                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Got deferred deeplink"
+                                                                               message:s
+                                                                        preferredStyle:UIAlertActionStyleDefault];
+                UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"Copy and close"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction* action) {
+                                                                     UIPasteboard* pb = [UIPasteboard generalPasteboard];
+                                                                     [pb setString:s];
+                                                                 }];
+                [alert addAction:okButton];
+                [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentViewController:alert animated:YES completion:nil];
+            }
+        }];
+    }
+    
     // Override point for customization after application launch.
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
