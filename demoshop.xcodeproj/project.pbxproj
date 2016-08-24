@@ -17,6 +17,8 @@
 		04ACD2E91C6623DA00813A29 /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACD2E81C6623DA00813A29 /* CartViewController.m */; };
 		04ACD2EC1C6721FB00813A29 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACD2EB1C6721FB00813A29 /* CategoryViewController.m */; };
 		04ACD2EF1C67261B00813A29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04ACD2ED1C67261B00813A29 /* Main.storyboard */; };
+		04B0011F1D6DDFC0006733FB /* WebviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B0011E1D6DDFC0006733FB /* WebviewController.m */; };
+		04B001211D6DE03D006733FB /* FBSDKAppEvents+Webview.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B001201D6DE03D006733FB /* FBSDKAppEvents+Webview.m */; };
 		1C8A8DCF9BDC4B41829B606E /* libPods-demoshop.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FD7CD8C9D55563EE7049B66 /* libPods-demoshop.a */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,10 @@
 		04ACD2EA1C6721FB00813A29 /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
 		04ACD2EB1C6721FB00813A29 /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		04ACD2EE1C67261B00813A29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		04B0011D1D6DDFA4006733FB /* WebviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebviewController.h; sourceTree = "<group>"; };
+		04B0011E1D6DDFC0006733FB /* WebviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebviewController.m; sourceTree = "<group>"; };
+		04B001201D6DE03D006733FB /* FBSDKAppEvents+Webview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FBSDKAppEvents+Webview.m"; sourceTree = "<group>"; };
+		04B001231D6DE124006733FB /* FBSDKAppEvents+Webview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FBSDKAppEvents+Webview.h"; sourceTree = "<group>"; };
 		5E31108AEBBCEFFBBDB2E347 /* Pods-demoshop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-demoshop.release.xcconfig"; path = "Pods/Target Support Files/Pods-demoshop/Pods-demoshop.release.xcconfig"; sourceTree = "<group>"; };
 		7FD7CD8C9D55563EE7049B66 /* libPods-demoshop.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-demoshop.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A53FF6446A06A3768BCFF3FF /* Pods-demoshop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-demoshop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-demoshop/Pods-demoshop.debug.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +94,10 @@
 				04ACD2E81C6623DA00813A29 /* CartViewController.m */,
 				04ACD2EA1C6721FB00813A29 /* CategoryViewController.h */,
 				04ACD2EB1C6721FB00813A29 /* CategoryViewController.m */,
+				04B0011D1D6DDFA4006733FB /* WebviewController.h */,
+				04B0011E1D6DDFC0006733FB /* WebviewController.m */,
+				04B001201D6DE03D006733FB /* FBSDKAppEvents+Webview.m */,
+				04B001231D6DE124006733FB /* FBSDKAppEvents+Webview.h */,
 				04ACD2D31C64A26500813A29 /* Assets.xcassets */,
 				04ACD2D51C64A26500813A29 /* LaunchScreen.storyboard */,
 				04ACD2D81C64A26500813A29 /* Info.plist */,
@@ -244,12 +254,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04B0011F1D6DDFC0006733FB /* WebviewController.m in Sources */,
 				04ACD2C91C64A26500813A29 /* AppDelegate.m in Sources */,
 				04ACD2E91C6623DA00813A29 /* CartViewController.m in Sources */,
 				04ACD2CC1C64A26500813A29 /* ProductListViewController.m in Sources */,
 				04ACD2C61C64A26500813A29 /* main.m in Sources */,
 				04ACD2EC1C6721FB00813A29 /* CategoryViewController.m in Sources */,
 				04ACD2CF1C64A26500813A29 /* DetailViewController.m in Sources */,
+				04B001211D6DE03D006733FB /* FBSDKAppEvents+Webview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

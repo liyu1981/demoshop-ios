@@ -8,6 +8,7 @@
 
 #import "ProductListViewController.h"
 #import "DetailViewController.h"
+#import "WebviewController.h"
 #import "AppDelegate.h"
 #import "XMLDictionary.h"
 #import "SDWebImage/UIImageView+WebCache.h"
@@ -62,14 +63,19 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://104.236.187.180/magento/fbdpafeed.xml"]];
         [[NSURLConnection alloc] initWithRequest:request delegate:self];
     }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
-    
     [self reportFBViewedContent];
-    
+    [self becomeFirstResponder];
     [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self resignFirstResponder];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -136,6 +142,8 @@
         [controller setDetailItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
+    } else if ([[segue identifier] isEqualToString:@"shakeToWebview"]) {
+        
     }
 }
 
@@ -180,6 +188,23 @@
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }*/
+}
+
+#pragma mark - shake support
+
+-(BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        NSLog(@"shaked");
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DemoshopWebview"];
+        [self showViewController:vc sender:self];
+    }
 }
 
 @end

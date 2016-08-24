@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -243,7 +242,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="708.5" y="-630.5"/>
+            <point key="canvasLocation" x="756.5" y="-630.5"/>
         </scene>
         <!--Cart View-->
         <scene sceneID="wMR-V0-w5V">
@@ -255,7 +254,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="BQN-a4-b3h" detailTextLabel="1CL-Ns-sbi" style="IBUITableViewCellStyleSubtitle" id="7N1-sg-rji">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7N1-sg-rji" id="d8A-Zj-ncu">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -294,6 +293,23 @@
             </objects>
             <point key="canvasLocation" x="708.5" y="996.5"/>
         </scene>
+        <!--Webview View-->
+        <scene sceneID="vAm-uN-KgP">
+            <objects>
+                <navigationController title="Webview View" id="ia0-I5-pTO" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vEp-Nm-54f">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="9Fg-EU-8hW" kind="relationship" relationship="rootViewController" id="yh6-g8-4g9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Low-2h-UZT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1372.5" y="-630.5"/>
+        </scene>
         <!--Cart-->
         <scene sceneID="FV8-qR-7P0">
             <objects>
@@ -327,9 +343,40 @@
             </objects>
             <point key="canvasLocation" x="-45.5" y="213.5"/>
         </scene>
+        <!--Webview-->
+        <scene sceneID="TvK-xd-faN">
+            <objects>
+                <viewController storyboardIdentifier="DemoshopWebview" title="Webview" id="9Fg-EU-8hW" customClass="WebviewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="If3-Ml-fRm"/>
+                        <viewControllerLayoutGuide type="bottom" id="YsE-Uu-yHh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D7D-Ba-9hs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WQa-vs-hIa">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="660"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Webview" id="iEL-j0-rB6"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="webView" destination="WQa-vs-hIa" id="aie-bD-sXK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pvT-9e-hXi" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2031.5" y="-1116.5"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="6S0-TO-JiA"/>
-        <segue reference="mi8-PL-tmi"/>
+        <segue reference="BlO-5A-QYV"/>
     </inferredMetricsTieBreakers>
 </document>

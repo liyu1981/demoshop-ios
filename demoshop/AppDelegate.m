@@ -61,6 +61,8 @@
     // FBSDK
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
+    
+    [[UIApplication sharedApplication] setApplicationSupportsShakeToEdit:YES];
 
     return YES;
 }
@@ -69,10 +71,28 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                          openURL:url
-                                                sourceApplication:sourceApplication
-                                                       annotation:annotation];
+    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                                  openURL:url
+                                                        sourceApplication:sourceApplication
+                                                               annotation:annotation];
+    if (handled) {
+        return TRUE;
+    }
+    
+    NSUUID* adId = [[ASIdentifierManager sharedManager] advertisingIdentifier];
+    NSString* s = [NSString stringWithFormat:@"DEEPLINK: %@, Device ADID: %@", [url absoluteString], [adId UUIDString]];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Got deeplink"
+                                                                   message:s
+                                                            preferredStyle:UIAlertActionStyleDefault];
+    UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"Copy and close"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction* action) {
+                                                         UIPasteboard* pb = [UIPasteboard generalPasteboard];
+                                                         [pb setString:s];
+                                                     }];
+    [alert addAction:okButton];
+    [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentViewController:alert animated:YES completion:nil];
+    return TRUE;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
