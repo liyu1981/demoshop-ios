@@ -23,6 +23,9 @@
 
 - (void)reportFBViewedContent {
     AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    if (app == NULL) {
+        return;
+    }
     NSArray *products = [app filterProductsWith:_categorySelected];
     if (products.count > 0) {
         // get first 3 items
@@ -33,10 +36,13 @@
             [contentIDs addObject:[entry valueForKey:@"g:id"]];
             total += [AppDelegate getPriceFrom:[entry valueForKey:@"g:price"]];
         }
+        NSError *error = nil;
+        NSData *contentIDsJSONData = [NSJSONSerialization dataWithJSONObject:contentIDs options:NSJSONWritingPrettyPrinted error:&error];
+        NSString *contentIDsJSONString = [[NSString alloc] initWithData:contentIDsJSONData encoding:NSUTF8StringEncoding];
         [FBSDKAppEvents logEvent:FBSDKAppEventNameViewedContent
                       valueToSum:total
                       parameters:@{ FBSDKAppEventParameterNameContentType: @"product",
-                                    FBSDKAppEventParameterNameContentID: [contentIDs componentsJoinedByString:@","] }];
+                                    FBSDKAppEventParameterNameContentID: contentIDsJSONString }];
     }
 }
 
