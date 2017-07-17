@@ -66,7 +66,7 @@
     AppDelegate *app = [[UIApplication sharedApplication] delegate];
     if (app.products == nil) {
         // Now get the XML file
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://104.236.187.180/magento/fbdpafeed.xml"]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://104.236.187.180/magento/facebook_adstoolbox_product_feed.xml"]];
         [[NSURLConnection alloc] initWithRequest:request delegate:self];
     }
     
